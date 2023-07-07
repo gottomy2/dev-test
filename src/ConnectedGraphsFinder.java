@@ -1,5 +1,7 @@
+import java.util.*;
+
 public class ConnectedGraphsFinder {
-    public class UnionFind {
+    public static class UnionFind {
         private int[] parent;
         private int[] rank;
 
@@ -41,5 +43,45 @@ public class ConnectedGraphsFinder {
                 rank[root1]++;
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the number of vertices:");
+        int n = Integer.parseInt(scanner.nextLine());
+
+        //Using Hashmap to map vertex values to indices in the UnionFind data structure:
+        Map<Integer, Integer> vertexToIndex = new HashMap<>();
+        int index = 0;
+
+        //Using UnionFind to keep track of the connected components:
+        UnionFind uf = new UnionFind(n*2); // at most 2n vertices
+
+        //Reading the edges and union the vertices:
+        System.out.println("Please enter the edges (each edge on a separate line) a b:");
+        for (int i = 0; i < n; i++) {
+            String[] edge = scanner.nextLine().split(" ");
+
+            int a = Integer.parseInt(edge[0]);
+            int b = Integer.parseInt(edge[1]);
+
+            if(!vertexToIndex.containsKey(a)) {
+                vertexToIndex.put(a, index++);
+            }
+            if(!vertexToIndex.containsKey(b)) {
+                vertexToIndex.put(b, index++);
+            }
+
+            uf.union(vertexToIndex.get(a), vertexToIndex.get(b));
+        }
+
+        //Counting the number of distinct connectec components:
+        Set<Integer> roots = new HashSet<>();
+        for (int i = 0; i < index; i++) {
+            roots.add(uf.find(i));
+        }
+
+        //Output the number of separate connected components:
+        System.out.println("The number of separate connected components is: " + roots.size());
     }
 }
