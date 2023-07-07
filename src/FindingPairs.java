@@ -1,13 +1,20 @@
 import java.util.*;
 
 /**
- * Author: gottomy2
  * This class represents a simple application that reads integers from the console,
  * finds pairs that sum up to a target sum (by default 13),
  * According to the rule, that first number in the pair should be smaller than the second number.
  * The application also prints the result in ascending order.
+ *
+ * @author gottomy2
  */
 public class FindingPairs {
+
+    /**
+     * The entry point of the application.
+     *
+     * @param args command line arguments (not used in this application).
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -58,15 +65,32 @@ public class FindingPairs {
         resultPairs.forEach(pair -> System.out.println(pair.first + " " + pair.second));
     }
 
-    // Simple class to represent a pair of integers
+    /**
+     * The {@code Pair} class represents a pair of integers.
+     */
     static class Pair implements Comparable<Pair> {
         int first, second;
+
+        /**
+         * Constructs a new pair of integers.
+         *
+         * @param first  the first integer in the pair.
+         * @param second the second integer in the pair.
+         */
         Pair(int first, int second) {
             this.first = first;
             this.second = second;
         }
 
-        // Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+        /**
+         * Compares this pair with the specified pair for order.
+         * Returns a negative integer, zero, or a positive integer as this object is less than, equal to,
+         * or greater than the specified object.
+         *
+         * @param o the object to be compared.
+         * @return a negative integer, zero, or a positive integer as this object
+         * is less than, equal to, or greater than the specified object.
+         */
         @Override
         public int compareTo(Pair o) {
             if (first != o.first) {

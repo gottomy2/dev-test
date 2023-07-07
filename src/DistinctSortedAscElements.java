@@ -4,14 +4,20 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Author: gottomy2
  * This class represents a simple application that reads integers from the console,
  * removes duplicates, and prints the result in ascending order.
  * The application also prints the count of the numbers, the count of the distinct numbers,
  * the minimum and the maximum number.
+ *
+ * @author gottomy2
  */
 public class DistinctSortedAscElements {
 
+    /**
+     * The entry point of the application.
+     *
+     * @param args command line arguments (not used in this application).
+     */
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
 
