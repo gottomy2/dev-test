@@ -1,6 +1,6 @@
 ## Task list
 
-### | Task 1 | [Solution]((https://github.com/gottomy2/dev-test/blob/master/src/DistinctSortedAscElements.java)) |  [Documentation](https://gottomy2.github.io/dev-test/DistinctSortedAscElements.html) | 
+### | Task 1 | [Solution](https://github.com/gottomy2/dev-test/blob/master/src/DistinctSortedAscElements.java) |  [Documentation](https://gottomy2.github.io/dev-test/DistinctSortedAscElements.html) | 
 The input is a long list of integers. Please write a small app that will output the list of distinct elements sorted in ascending order, plus the basic measurement information that contains the number of elements in the source, number of distinct elements, min and max value.
 
 Sample:
