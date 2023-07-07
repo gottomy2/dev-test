@@ -1,5 +1,12 @@
 import java.util.*;
 
+/**
+ * Author: gottomy2
+ * This class represents a simple application that reads integers from the console,
+ * finds pairs that sum up to a target sum (by default 13),
+ * According to the rule, that first number in the pair should be smaller than the second number.
+ * The application also prints the result in ascending order.
+ */
 public class FindingPairs {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
