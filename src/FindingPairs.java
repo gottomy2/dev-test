@@ -1,8 +1,7 @@
 import java.util.*;
 
 /**
- * This class represents a simple application that reads integers from the console,
- * finds pairs that sum up to a target sum (by default 13),
+ * This class finds pairs of integers in the input that sum up to a target value.
  * According to the rule, that first number in the pair should be smaller than the second number.
  * The application also prints the result in ascending order.
  *
@@ -10,38 +9,52 @@ import java.util.*;
  */
 public class FindingPairs {
 
+    private Scanner scanner;
+    private int targetSum;
+
     /**
-     * The entry point of the application.
+     * Initializes a new FindingPairs object with the provided scanner and target sum.
      *
-     * @param args command line arguments (not used in this application).
+     * @param scanner the scanner used for reading input.
+     * @param targetSum the sum to which pairs of numbers must add up.
      */
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public FindingPairs(Scanner scanner, int targetSum) {
+        this.scanner = scanner;
+        this.targetSum = targetSum;
+    }
 
-        // Using HashMap to count the occurence of each number
-        Map<Integer, Integer> numCounts = new HashMap<>();
-
-        // Using ArrayList to store the pairs
-        List<Pair> resultPairs = new ArrayList<>();
-
-        int targetSum = 13;
-
-        // Reading input:
+    /**
+     * Reads input from the user and splits it into a list of numbers.
+     *
+     * @return a list of string representation of the numbers entered by the user.
+     */
+    public List<String> readInput() {
         System.out.println("Please enter integers separated by spaces:");
         String input = scanner.nextLine();
-        String[] numbers = input.split(" ");
+        return Arrays.asList(input.split(" "));
+    }
 
-        //Count the occurence of each number
+    /**
+     * Counts the occurrences of each number in the provided list.
+     *
+     * @param numCounts a map to store the count of each number.
+     * @param numbers the list of numbers to count.
+     */
+    private void countNumbers(Map<Integer, Integer> numCounts, List<String> numbers) {
         for (String number : numbers) {
             int num = Integer.parseInt(number);
-            if (numCounts.containsKey(num)) {
-                numCounts.put(num, numCounts.get(num) + 1);
-            } else {
-                numCounts.put(num, 1);
-            }
+            numCounts.put(num, numCounts.getOrDefault(num, 0) + 1);
         }
+    }
 
-        //Finding pairs that sum up to the targetSum
+    /**
+     * Finds pairs of numbers that add up to the target sum and adds them to the provided list.
+     *
+     * @param resultPairs a list to store the resulting pairs.
+     * @param numCounts a map storing the count of each number.
+     * @param numbers the list of numbers in which to find pairs.
+     */
+    private void findPairsThatSumUpToTarget(List<Pair> resultPairs, Map<Integer, Integer> numCounts, List<String> numbers) {
         for (String number : numbers) {
             int num = Integer.parseInt(number);
             int complement = targetSum - num;
@@ -49,26 +62,48 @@ public class FindingPairs {
             if (numCounts.containsKey(complement)) {
                 int times = Math.min(numCounts.get(num), numCounts.get(complement));
                 for (int i = 0; i < times; i++) {
-                    //making sure that first number is smaller than the second
                     resultPairs.add(new Pair(Math.min(num, complement), Math.max(num, complement)));
                 }
-                // remove so that they are not counted again
                 numCounts.remove(num);
                 numCounts.remove(complement);
             }
         }
+    }
 
-        //Sorting pairs in ascending order:
+    /**
+     * Processes the user's input, finds pairs of numbers that add up to the target sum, and returns a list of these pairs.
+     *
+     * @return a list of pairs of numbers that add up to the target sum.
+     */
+    public List<Pair> findPairs() {
+        Map<Integer, Integer> numCounts = new HashMap<>();
+        List<Pair> resultPairs = new ArrayList<>();
+
+        List<String> numbers = readInput();
+
+        countNumbers(numCounts, numbers);
+        findPairsThatSumUpToTarget(resultPairs, numCounts, numbers);
+
         Collections.sort(resultPairs);
 
-        //Printing the result:
-        resultPairs.forEach(pair -> System.out.println(pair.first + " " + pair.second));
+        return resultPairs;
+    }
+
+    /**
+     * The entry point of the application.
+     *
+     * @param args command line arguments (not used in this application).
+     */
+    public static void main(String[] args) {
+        FindingPairs findingPairs = new FindingPairs(new Scanner(System.in), 13);
+        List<Pair> resultPairs = findingPairs.findPairs();
+        resultPairs.forEach(pair -> System.out.println(pair.getFirst() + " " + pair.getSecond()));
     }
 
     /**
      * The {@code Pair} class represents a pair of integers.
      */
-    static class Pair implements Comparable<Pair> {
+    public static class Pair implements Comparable<Pair> {
         int first, second;
 
         /**
@@ -77,7 +112,7 @@ public class FindingPairs {
          * @param first  the first integer in the pair.
          * @param second the second integer in the pair.
          */
-        Pair(int first, int second) {
+        public Pair(int first, int second) {
             this.first = first;
             this.second = second;
         }
@@ -97,6 +132,14 @@ public class FindingPairs {
                 return Integer.compare(first, o.first);
             }
             return Integer.compare(second, o.second);
+        }
+
+        public int getFirst() {
+            return first;
+        }
+
+        public int getSecond() {
+            return second;
         }
     }
 }
