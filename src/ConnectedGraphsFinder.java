@@ -17,8 +17,8 @@ public class ConnectedGraphsFinder {
      * that deal with finding connected components in a graph.
      */
     public static class UnionFind {
-        private int[] parent;
-        private int[] rank;
+        private List<Integer> parent;
+        private List<Integer> rank;
 
         /**
          * Initializes a UnionFind data structure for the given size.
@@ -26,13 +26,13 @@ public class ConnectedGraphsFinder {
          * @param size The total number of elements.
          */
         public UnionFind(int size) {
-            parent = new int[size];
-            rank = new int[size];
+            parent = new ArrayList<>(Collections.nCopies(size, 0));
+            rank = new ArrayList<>(Collections.nCopies(size, 0));
 
             // Initially, each element is its own parent.
             for (int i = 0; i < size; i++) {
-                parent[i] = i;
-                rank[i] = 1;
+                parent.set(i, i);
+                rank.set(i, 1);
             }
         }
 
@@ -44,11 +44,11 @@ public class ConnectedGraphsFinder {
          * @return The representative element of the set containing the given element.
          */
         public int find(int element) {
-            if (parent[element] != element) {
+            if (parent.get(element) != element) {
                 // Path compression
-                parent[element] = find(parent[element]);
+                parent.set(element, find(parent.get(element)));
             }
-            return parent[element];
+            return parent.get(element);
         }
 
         /**
@@ -69,13 +69,13 @@ public class ConnectedGraphsFinder {
             }
 
             // Union by rank
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
+            if (rank.get(root1) < rank.get(root2)) {
+                parent.set(root1, root2);
+            } else if (rank.get(root1) > rank.get(root2)) {
+                parent.set(root2, root1);
             } else {
-                parent[root2] = root1;
-                rank[root1]++;
+                parent.set(root2, root1);
+                rank.set(root1, rank.get(root1) + 1);
             }
         }
     }
@@ -101,10 +101,10 @@ public class ConnectedGraphsFinder {
         // Reading the edges and union the vertices:
         System.out.println("Please enter the edges (each edge on a separate line) a b:");
         for (int i = 0; i < n; i++) {
-            String[] edge = scanner.nextLine().split(" ");
+            List<String> edge = Arrays.asList(scanner.nextLine().split(" "));
 
-            int a = Integer.parseInt(edge[0]);
-            int b = Integer.parseInt(edge[1]);
+            int a = Integer.parseInt(edge.get(0));
+            int b = Integer.parseInt(edge.get(1));
 
             if(!vertexToIndex.containsKey(a)) {
                 vertexToIndex.put(a, index++);
