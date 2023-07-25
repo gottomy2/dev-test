@@ -134,6 +134,28 @@ public class FindingPairs {
             return Integer.compare(second, o.second);
         }
 
+        /**
+         * Indicates whether some other object is "equal to" this one.
+         * @param o the reference object with which to compare.
+         * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
+         */
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Pair pair = (Pair) o;
+            return first == pair.first && second == pair.second;
+        }
+
+        /**
+         * Returns a hash code value for the object.
+         * @return a hash code value for this object.
+         */
+        @Override
+        public int hashCode() {
+            return Objects.hash(first, second);
+        }
+
         public int getFirst() {
             return first;
         }
