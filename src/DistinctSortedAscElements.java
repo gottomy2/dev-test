@@ -22,13 +22,25 @@ public class DistinctSortedAscElements {
     }
 
     /**
-     * Reads input from the user and splits it into a list of numbers.
+     * Processes the given string of numbers into a list of distinct sorted numbers and statistics.
      *
-     * @return a list of string representation of the numbers entered by the user.
+     * @param input the string of numbers separated by spaces.
+     * @return a string representing the processed results.
      */
-    public List<String> readInput() {
-        System.out.println("Please enter integers separated by spaces:");
-        return Arrays.asList(scanner.nextLine().split(" "));
+    public String processInput(String input) {
+        List<String> numbers = Arrays.asList(input.split(" "));
+        Set<Integer> distinctNumbers = getDistinctNumbers(numbers.toArray(new String[0]));
+        TreeSet<Integer> sortedDistinctNumbers = sortDistinctNumbers(distinctNumbers);
+
+        // Building the result:
+        StringBuilder result = new StringBuilder();
+        sortedDistinctNumbers.forEach(num -> result.append(num).append(" "));
+        result.append("\ncount: ").append(numbers.size());
+        result.append("\ndistinct: ").append(distinctNumbers.size());
+        result.append("\nmin: ").append(sortedDistinctNumbers.first());
+        result.append("\nmax: ").append(sortedDistinctNumbers.last());
+
+        return result.toString();
     }
 
     /**
@@ -61,16 +73,14 @@ public class DistinctSortedAscElements {
      * @param args command line arguments (not used in this application).
      */
     public static void main(String[] args) {
-        DistinctSortedAscElements distinctSortedAscElements = new DistinctSortedAscElements(new Scanner(System.in));
-        List<String> numbers = distinctSortedAscElements.readInput();
-        Set<Integer> distinctNumbers = distinctSortedAscElements.getDistinctNumbers(numbers.toArray(new String[0]));
-        TreeSet<Integer> sortedDistinctNumbers = distinctSortedAscElements.sortDistinctNumbers(distinctNumbers);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter integers separated by spaces:");
+        String input = scanner.nextLine();
 
-        //Printing the result:
-        sortedDistinctNumbers.forEach(num -> System.out.print(num + " "));
-        System.out.println("\ncount: " + numbers.size());
-        System.out.println("distinct: " + distinctNumbers.size());
-        System.out.println("min: " + sortedDistinctNumbers.first());
-        System.out.println("max: " + sortedDistinctNumbers.last());
+        DistinctSortedAscElements distinctSortedAscElements = new DistinctSortedAscElements(scanner);
+        String result = distinctSortedAscElements.processInput(input);
+
+        // Printing the result:
+        System.out.println(result);
     }
 }
