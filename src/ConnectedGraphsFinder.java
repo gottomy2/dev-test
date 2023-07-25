@@ -77,6 +77,25 @@ public class ConnectedGraphsFinder {
         }
     }
 
+    public int findConnectedComponents(int n, List<List<Integer>> edges) {
+        UnionFind uf = new UnionFind();
+
+        // Reading the edges and union the vertices:
+        for (List<Integer> edge : edges) {
+            int a = edge.get(0);
+            int b = edge.get(1);
+
+            uf.union(a, b);
+        }
+
+        Set<Integer> roots = new HashSet<>();
+        for (int i : uf.parent.keySet()) {
+            roots.add(uf.find(i));
+        }
+
+        return roots.size();
+    }
+
     /**
      * The main method reads the edges from the user input and uses the UnionFind
      * class to determine the number of separate connected components in the graph.
@@ -88,24 +107,15 @@ public class ConnectedGraphsFinder {
         System.out.println("Please enter the number of vertices:");
         int n = Integer.parseInt(scanner.nextLine());
 
-        UnionFind uf = new UnionFind();
-
-        // Reading the edges and union the vertices:
         System.out.println("Please enter the edges (each edge on a separate line) a b:");
+        List<List<Integer>> edges = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             List<String> edge = Arrays.asList(scanner.nextLine().split(" "));
-
-            int a = Integer.parseInt(edge.get(0));
-            int b = Integer.parseInt(edge.get(1));
-
-            uf.union(a, b);
+            edges.add(Arrays.asList(Integer.parseInt(edge.get(0)), Integer.parseInt(edge.get(1))));
         }
 
-        Set<Integer> roots = new HashSet<>();
-        for (int i : uf.parent.keySet()) {
-            roots.add(uf.find(i));
-        }
-
-        System.out.println("The number of separate connected components is: " + roots.size());
+        ConnectedGraphsFinder cgf = new ConnectedGraphsFinder();
+        int connectedComponents = cgf.findConnectedComponents(n, edges);
+        System.out.println("The number of separate connected components is: " + connectedComponents);
     }
 }
