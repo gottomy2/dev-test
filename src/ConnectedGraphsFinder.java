@@ -22,8 +22,8 @@ public class ConnectedGraphsFinder {
 
         /**
          * Initializes a UnionFind data structure for the given size.
-         *
-         * parent The total number of elements.
+         * parent - maps each element to its parent.
+         * rank - maps each element to its rank.
          */
         public UnionFind() {
             parent = new HashMap<>();
@@ -77,6 +77,12 @@ public class ConnectedGraphsFinder {
         }
     }
 
+    /**
+     * Finds the number of separate connected components in a graph represented by a list of edges.
+     * @param n The number of vertices in the graph.
+     * @param edges The list of edges in the graph.
+     * @return The number of separate connected components in the graph.
+     */
     public int findConnectedComponents(int n, List<List<Integer>> edges) {
         UnionFind uf = new UnionFind();
 
